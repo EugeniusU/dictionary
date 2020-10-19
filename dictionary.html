@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<style>
+    .settings {
+//        width: 100px;
+//        height: 20px;
+        border: 1px solid purple;
+    }
+    .content {
+//        width: 300px;
+        width: 500px;
+        height: 800px;
+        border: 1px solid green;
+        padding: 10px;
+        font-family: "Comic Sans MS";
+        color: green;
+        font-size: 20px;
+    }
+    .settings, .content {
+        margin: auto;
+    }
+</style>
+
+<div class="settings">
+    <input type="text">
+</div>
+
+<div class="content">
+    <div class="word"></div>
+</div>
+
+<script>
+    const content = document.querySelector('.content');
+    const input = document.querySelector('input');
+
+    const socket = new WebSocket('ws://127.0.0.1:8000/');
+
+    socket.onmessage = event => {
+
+        console.log(event);
+        console.log(1);
+
+///        const change = JSON.parse(event.data);
+        const change = event.data;
+//        const change = event.data;
+///        content.textContent = change.value;
+
+        content.textContent = change;
+
+        console.log(change);
+        console.log(typeof change);
+//        console.log(change.value);
+        console.log(22);
+    };
+
+//    input.addEventListener('change', event => {
+    input.addEventListener('change', function(event) {
+        console.log(event);
+//        socket.send(event.target.value);
+//        console.log('v', event.target.value);
+//        console.log('v2', event.value);
+//        console.log(1);
+
+        socket.send(JSON.stringify({
+            value: event.target.value
+        }));
+
+    });
+
+//    console.log(22);
+
+</script>
+
+</body>
+</html>
